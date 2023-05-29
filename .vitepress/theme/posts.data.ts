@@ -8,6 +8,7 @@ export interface Post {
     string: string
   }
   excerpt: string | undefined
+  content: string | undefined
 }
 
 declare const data: Post[]
@@ -15,13 +16,15 @@ export { data }
 
 export default createContentLoader('posts/*.md', {
   excerpt: true,
+  render: true,
   transform(raw): Post[] {
     return raw
-      .map(({ url, frontmatter, excerpt }) => ({
+      .map(({ url, frontmatter, excerpt, html }) => ({
         title: frontmatter.title,
         url,
         excerpt: formatBacklink(excerpt),
-        date: formatDate(frontmatter.date)
+        date: formatDate(frontmatter.date),
+        content: formatBacklink(html),
       }))
       .sort((a, b) => b.date.time - a.date.time)
   }

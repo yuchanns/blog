@@ -2,7 +2,7 @@ import { defineComponent } from "vue"
 import { PubDate } from './date.js'
 import { Author } from './author.js'
 import { computed } from 'vue'
-import { Content, useData, useRoute } from 'vitepress'
+import { useData, useRoute } from 'vitepress'
 import { data as posts } from './posts.data.js'
 
 export const Article = defineComponent({
@@ -18,7 +18,6 @@ export const Article = defineComponent({
     const nextPost = computed(() => posts[currentIndex - 1])
     const prevPost = computed(() => posts[currentIndex + 1])
 
-
     return () =>
       <article class="xl:divide-y xl:divide-gray-200 dark:xl:divide-slate-200/5">
         <header class="pt-6 xl:pb-10 space-y-1 text-center">
@@ -33,7 +32,7 @@ export const Article = defineComponent({
           style="grid-template-rows: auto 1fr">
           <Author />
           <div class="divide-y divide-gray-200 dark:divide-slate-200/5 xl:pb-0 xl:col-span-3 xl:row-span-2">
-            <Content class="prose dark:prose-invert max-w-none pt-10 pb-8" />
+            <div class="prose dark:prose-invert max-w-none pt-10 pb-8" v-html={post.content} />
           </div>
 
           <footer
