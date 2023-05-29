@@ -21,7 +21,7 @@ twitter: '@LinaAsahi'
 
 ---
 
-如果这是你第一次听说我们的 GPU 冒险，请先查看我的[[关于 M1 GPU 的故事|post/tales-of-the-m1-gpu]]文章，它涵盖了我去年所做的内容！还有不要错过 Alyssa 在[她网站](https://rosenzweig.io/)上撰写的精彩系列文章，从2021年1月开始追溯到现在！^^
+如果这是你第一次听说我们的 GPU 冒险，请先查看我的[[关于 M1 GPU 的故事|tales-of-the-m1-gpu]]文章，它涵盖了我去年所做的内容！还有不要错过 Alyssa 在[她网站](https://rosenzweig.io/)上撰写的精彩系列文章，从2021年1月开始追溯到现在！^^
 
 如果太长了，请随意[跳到结尾部分](#总结)，了解这对 Asahi Linux 意味着什么！
 
