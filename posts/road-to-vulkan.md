@@ -6,7 +6,7 @@ avatar: https://avatars.githubusercontent.com/u/102031928
 twitter: '@LinaAsahi'
 ---
 
-[[Linux|linux]] [[翻译系列|translation]]
+[[Linux|linux]] [[翻译|translation]]
 
 ::: tip
 原文地址：https://asahilinux.org/2023/03/road-to-vulkan/
