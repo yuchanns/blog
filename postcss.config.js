@@ -6,6 +6,6 @@ export default {
     tailwind({
       content: ['./.vitepress/theme/**/*.{vue,tsx}'],
       plugins: [tailwindTypography]
-    })
+    }),
   ]
 }

@@ -9,6 +9,12 @@ export interface Post {
   }
   excerpt: string | undefined
   content: string | undefined
+  backlinks: { path: string }[]
+}
+
+export interface Content {
+  data: string,
+  backlinks: Post['backlinks']
 }
 
 declare const data: Post[]
@@ -19,13 +25,17 @@ export default createContentLoader('posts/*.md', {
   render: true,
   transform(raw): Post[] {
     return raw
-      .map(({ url, frontmatter, excerpt, html }) => ({
-        title: frontmatter.title,
-        url,
-        excerpt: formatBacklink(excerpt),
-        date: formatDate(frontmatter.date),
-        content: formatBacklink(html),
-      }))
+      .map(({ url, frontmatter, excerpt, html }) => {
+        const content = formatBacklink(html)
+        return ({
+          title: frontmatter.title,
+          url,
+          excerpt: formatBacklink(excerpt).data,
+          date: formatDate(frontmatter.date),
+          content: content.data,
+          backlinks: content.backlinks
+        })
+      })
       .sort((a, b) => b.date.time - a.date.time)
   }
 })
@@ -52,15 +62,23 @@ function linkMatcher(cap: RegExpExecArray) {
   return { title, path }
 }
 
-function formatBacklink(raw: string | undefined): Post['excerpt'] {
+function formatBacklink(raw: string | undefined): Content {
+  const content = {
+    data: '',
+    backlinks: []
+  } as Content
+
   if (!raw) {
-    return ''
+    return content
   }
   let cap: RegExpExecArray | null
   while ((cap = regexp.exec(raw))) {
     const { title, path } = linkMatcher(cap)
+    content.backlinks.push({ path })
     raw = raw.slice(0, cap.index) + `<span class="backlink-bracket">&#91;&#91;</span><a href="${path}">${title}</a><span class="backlink-bracket">&#93;&#93;</span>` +
       raw.slice(cap.index + cap[0].length, raw.length)
   }
-  return raw
+  content.data = raw
+  return content
 }
+
