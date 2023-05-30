@@ -227,3 +227,10 @@ span.lang {
   }
 }
 
+
+@media (prefers-color-scheme: dark) {
+  .custom-block {
+    background-color: var(--tw-prose-pre-bg);
+    color: #A6ACCD;
+  }
+}
