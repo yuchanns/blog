@@ -9,7 +9,6 @@
   --backlink-bracket-opacity: .5;
   --nav-height: 64px;
   --backlink-color: #f7f7f7;
-  --backlink-hover-color: #898989;
   --c-text-light-1: rgba(60, 60, 67, .92);
 }
 
@@ -219,10 +218,6 @@ span.lang {
     cursor: pointer;
     font-size: 1.4rem;
     margin-left: 1.5rem;
-}
-
-.backlink:hover {
-    border: 1px solid var(--backlink-hover-color);
 }
 
 @media (max-width: 719px) {
