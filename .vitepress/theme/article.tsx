@@ -1,7 +1,7 @@
 import { defineComponent } from "vue"
 import { PubDate } from './date.js'
 import { Author } from './author.js'
-import { useData, useRoute } from 'vitepress'
+import { Content, useData, useRoute } from 'vitepress'
 import { data as posts } from './posts.data.js'
 
 export const Article = defineComponent({
@@ -16,7 +16,7 @@ export const Article = defineComponent({
     const nextPost = posts[currentIndex - 1]
     const prevPost = posts[currentIndex + 1]
     const backlinkPosts = posts.filter((p) =>
-      p.backlinks.find(bp => bp.path == post.url))
+      p.backlinks.find(url => url == post.url))
 
     return () =>
       <article class="xl:divide-y xl:divide-gray-200 dark:xl:divide-slate-200/5">
@@ -32,7 +32,7 @@ export const Article = defineComponent({
           style="grid-template-rows: auto 1fr">
           <Author />
           <div class="divide-y divide-gray-200 dark:divide-slate-200/5 xl:pb-0 xl:col-span-3 xl:row-span-2">
-            <div class="prose dark:prose-invert max-w-none pt-10 pb-8" v-html={post.content} />
+            <Content class="prose dark:prose-invert max-w-none pt-10 pb-8" />
             <div class="backlinks-group">
               <h2 class="backlinks-header">
                 {backlinkPosts.length} Linked Reference(s)

@@ -8,13 +8,7 @@ export interface Post {
     string: string
   }
   excerpt: string | undefined
-  content: string | undefined
-  backlinks: { path: string }[]
-}
-
-export interface Content {
-  data: string,
-  backlinks: Post['backlinks']
+  backlinks: string[]
 }
 
 declare const data: Post[]
@@ -26,14 +20,12 @@ export default createContentLoader('posts/*.md', {
   transform(raw): Post[] {
     return raw
       .map(({ url, frontmatter, excerpt, html }) => {
-        const content = formatBacklink(html)
         return ({
           title: frontmatter.title,
           url,
-          excerpt: formatBacklink(excerpt).data,
+          excerpt: excerpt,
           date: formatDate(frontmatter.date),
-          content: content.data,
-          backlinks: content.backlinks
+          backlinks: matchBacklinks(html)
         })
       })
       .sort((a, b) => b.date.time - a.date.time)
@@ -53,32 +45,18 @@ function formatDate(raw: string): Post['date'] {
   }
 }
 
-const regexp = /\[{2}\s*(.+?)\s*\]{2}/ig
+const regexp = /<a\s+class="backlink-route"\s+href="([^"]+)"/
 
-function linkMatcher(cap: RegExpExecArray) {
-  const backlink = cap[1].split("|")
-  const title = backlink[0]
-  const path = `/posts/${backlink[backlink.length - 1]}`
-  return { title, path }
-}
-
-function formatBacklink(raw: string | undefined): Content {
-  const content = {
-    data: '',
-    backlinks: []
-  } as Content
-
+function matchBacklinks(raw: string | undefined): string[] {
+  const backlinks = [] as string[]
   if (!raw) {
-    return content
+    return backlinks
   }
-  let cap: RegExpExecArray | null
-  while ((cap = regexp.exec(raw))) {
-    const { title, path } = linkMatcher(cap)
-    content.backlinks.push({ path })
-    raw = raw.slice(0, cap.index) + `<span class="backlink-bracket">&#91;&#91;</span><a href="${path}">${title}</a><span class="backlink-bracket">&#93;&#93;</span>` +
-      raw.slice(cap.index + cap[0].length, raw.length)
+  let match: RegExpExecArray | null
+  while ((match = regexp.exec(raw))) {
+    backlinks.push(match[1])
+    raw = raw.slice(match.index + match[0].length, raw.length)
   }
-  content.data = raw
-  return content
-}
 
+  return backlinks
+}

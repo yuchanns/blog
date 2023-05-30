@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { genFeed } from './genFeed.js'
+import { markdownItBacklinks } from './theme/markdownItBacklinks.js'
 
 export default defineConfig({
   title: 'Code Alchemy Academy',
@@ -33,5 +34,10 @@ export default defineConfig({
       }
     ]
   ],
-  buildEnd: genFeed
+  buildEnd: genFeed,
+  markdown: {
+    config: (md) => {
+      md.use(markdownItBacklinks)
+    }
+  }
 })
