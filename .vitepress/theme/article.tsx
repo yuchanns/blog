@@ -1,7 +1,7 @@
 import { defineComponent } from "vue"
 import { PubDate } from './date.js'
 import { Author } from './author.js'
-import { Content, useData, useRoute } from 'vitepress'
+import { Content, useData, useRoute, useRouter } from 'vitepress'
 import { data as posts } from './posts.data.js'
 
 export const Article = defineComponent({
@@ -10,6 +10,7 @@ export const Article = defineComponent({
   setup() {
     const { frontmatter: data } = useData()
     const route = useRoute()
+    const r = useRouter()
     const currentIndex = posts.findIndex((p) => p.url == route.path)
 
     const post = posts[currentIndex]
@@ -33,18 +34,16 @@ export const Article = defineComponent({
           <Author />
           <div class="divide-y divide-gray-200 dark:divide-slate-200/5 xl:pb-0 xl:col-span-3 xl:row-span-2">
             <Content class="prose dark:prose-invert max-w-none pt-10 pb-8" />
-            <div class="backlinks-group">
-              <h2 class="backlinks-header">
+            <div class="prose dark:prose-invert max-w-none">
+              <h2 class="text-sm font-extrabold pt-10">
                 {backlinkPosts.length} Linked Reference(s)
               </h2>
               {backlinkPosts.length > 0 &&
-                <div class="backlinks">
+                <div class="text-sm max-w-none">
                   {backlinkPosts.map(post =>
-                    <div class="backlink">
-                      <a href={post.url}>
-                        <h2>{post.title}</h2>
-                        <div class="backlink-body" v-html={post.excerpt} />
-                      </a>
+                    <div style="border-radius: 4px;">
+                      <h2 onClick={() => r.go(post.url)}>{post.title}</h2>
+                      <div v-html={post.excerpt} />
                     </div>
                   )}
                 </div>}
