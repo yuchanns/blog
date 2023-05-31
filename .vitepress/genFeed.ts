@@ -2,23 +2,22 @@ import path from 'path'
 import { writeFileSync } from 'fs'
 import { Feed } from 'feed'
 import { createContentLoader, type SiteConfig } from 'vitepress'
-
-const baseUrl = `https://blog.yuchanns.xyz`
+import { title } from 'process'
+import { description, baseUrl, lang, image, favicon, copyright, postsPrefix } from './data.js'
 
 export async function genFeed(config: SiteConfig) {
   const feed = new Feed({
-    title: 'Code Alchemy Academy',
-    description: 'Opinions are my own.',
+    title: title,
+    description: description,
     id: baseUrl,
     link: baseUrl,
-    language: 'en',
-    image: 'https://avatars.githubusercontent.com/u/25029451',
-    favicon: `${baseUrl}/favicon.ico`,
-    copyright:
-      'Copyright (c) 2016-present, Hanchin (yuchanns) Hsieh'
+    language: lang,
+    image: image,
+    favicon: favicon,
+    copyright: copyright
   })
 
-  const posts = await createContentLoader('posts/*.md', {
+  const posts = await createContentLoader(`${postsPrefix}/*.md`, {
     excerpt: true,
     render: true
   }).load()

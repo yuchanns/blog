@@ -1,25 +1,16 @@
 import { defineConfig } from 'vitepress'
+import { baseUrl, description, title } from './data.js'
 import { genFeed } from './genFeed.js'
+import { genSocial } from './genSocial.js'
 import { markdownItBacklinks } from './theme/markdownItBacklinks.js'
 
-const baseURL = 'https://blog.yuchanns.xyz'
-const defaultImage = 'https://avatars.githubusercontent.com/u/25029451'
-
 export default defineConfig({
-  title: 'Code Alchemy Academy',
-  description: 'Opinions are my own.',
+  title: title,
+  description: description,
   cleanUrls: true,
   head: [
-    ['meta', { name: 'twitter:site', content: baseURL }],
+    ['meta', { name: 'twitter:site', content: baseUrl }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    ['meta', { name: 'twitter:creator', content: 'yuchanns' }],
-    [
-      'meta',
-      {
-        name: 'twitter:image',
-        content: defaultImage
-      }
-    ],
     [
       'link',
       {
@@ -38,15 +29,7 @@ export default defineConfig({
       }
     ]
   ],
-  transformHead: async (ctx) => {
-    if (!ctx.pageData.relativePath.startsWith('posts/')) {
-      return
-    }
-    ctx.head.push(['meta', { property: 'og:url', content: `${baseURL}/` + ctx.pageData.relativePath.replace(/((^|\/)index)?\.md$/, '$2') }])
-    ctx.head.push(['meta', { property: 'og:title', content: ctx.pageData.title }])
-    ctx.head.push(['meta', { property: 'og:description', content: ctx.pageData.description }])
-    ctx.head.push(['meta', { property: 'og:image', content: ctx.pageData.frontmatter['image'] ?? defaultImage }])
-  },
+  transformHead: genSocial,
   buildEnd: genFeed,
   markdown: {
     config: (md) => {
