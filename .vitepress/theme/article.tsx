@@ -34,15 +34,15 @@ export const Article = defineComponent({
           <Author />
           <div class="divide-y divide-gray-200 dark:divide-slate-200/5 xl:pb-0 xl:col-span-3 xl:row-span-2">
             <Content class="prose dark:prose-invert max-w-none pt-10 pb-8" />
-            <div class="prose dark:prose-invert max-w-none">
-              <h2 class="text-sm font-extrabold pt-10">
+            <div class="prose dark:prose-invert max-w-none pb-10">
+              <h2 class="text-lg text-gray-500 font-bold pt-10">
                 {backlinkPosts.length} Linked Reference(s)
               </h2>
               {backlinkPosts.length > 0 &&
                 <div class="text-sm max-w-none">
                   {backlinkPosts.map(post =>
-                    <div style="border-radius: 4px;">
-                      <h2 onClick={() => r.go(post.url)}>{post.title}</h2>
+                    <div class="rounded border px-3 drop-shadow-md">
+                      <h2 class="cursor-pointer" onClick={() => r.go(post.url)}>{post.title}</h2>
                       <div v-html={post.excerpt} />
                     </div>
                   )}
