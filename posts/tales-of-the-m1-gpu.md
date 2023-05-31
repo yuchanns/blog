@@ -4,6 +4,7 @@ date: 2022-11-30
 author: Asahi Lina
 avatar: https://avatars.githubusercontent.com/u/102031928
 twitter: '@LinaAsahi'
+image: https://asahilinux.org/img/blog/2022/11/m2gpu.png
 ---
 
 [[Linux|linux]] [[翻译|translation]]

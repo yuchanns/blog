@@ -4,6 +4,7 @@ date: 2023-03-21
 author: Asahi Lina
 avatar: https://avatars.githubusercontent.com/u/102031928
 twitter: '@LinaAsahi'
+image: https://asahilinux.org/img/blog/2023/03/xonotic.png
 ---
 
 [[Linux|linux]] [[翻译|translation]]
