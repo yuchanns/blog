@@ -1,4 +1,5 @@
 import { createContentLoader } from 'vitepress'
+import { postsPrefix } from '../data.js'
 import { Content, formatBacklink } from './markdownItBacklinks.js'
 
 export interface Post {
@@ -15,9 +16,8 @@ export interface Post {
 declare const data: Post[]
 export { data }
 
-export default createContentLoader('posts/*.md', {
+export default createContentLoader(`${postsPrefix}/*.md`, {
   excerpt: true,
-  render: true,
   includeSrc: true,
   transform(raw): Post[] {
     return raw
