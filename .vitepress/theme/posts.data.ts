@@ -1,4 +1,5 @@
 import { createContentLoader } from 'vitepress'
+import { Content, formatBacklink } from './markdownItBacklinks.js'
 
 export interface Post {
   title: string
@@ -8,7 +9,7 @@ export interface Post {
     string: string
   }
   excerpt: string | undefined
-  backlinks: string[]
+  backlinks: Content['backlinks']
 }
 
 declare const data: Post[]
@@ -17,15 +18,16 @@ export { data }
 export default createContentLoader('posts/*.md', {
   excerpt: true,
   render: true,
+  includeSrc: true,
   transform(raw): Post[] {
     return raw
-      .map(({ url, frontmatter, excerpt, html }) => {
+      .map(({ url, frontmatter, excerpt, src }) => {
         return ({
           title: frontmatter.title,
           url,
           excerpt: excerpt,
           date: formatDate(frontmatter.date),
-          backlinks: matchBacklinks(html)
+          backlinks: formatBacklink(src).backlinks
         })
       })
       .sort((a, b) => b.date.time - a.date.time)
@@ -45,18 +47,3 @@ function formatDate(raw: string): Post['date'] {
   }
 }
 
-const regexp = /<a\s+class="backlink-route"\s+href="([^"]+)"/
-
-function matchBacklinks(raw: string | undefined): string[] {
-  const backlinks = [] as string[]
-  if (!raw) {
-    return backlinks
-  }
-  let match: RegExpExecArray | null
-  while ((match = regexp.exec(raw))) {
-    backlinks.push(match[1])
-    raw = raw.slice(match.index + match[0].length, raw.length)
-  }
-
-  return backlinks
-}
