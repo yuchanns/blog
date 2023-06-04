@@ -60,7 +60,7 @@ export const Article = defineComponent({
               {backlinkPosts.length > 0 &&
                 <div class="text-sm max-w-none">
                   {backlinkPosts.map(post =>
-                    <div class="rounded border px-3 drop-shadow-md">
+                    <div class="rounded border px-3 drop-shadow-md mb-3">
                       <h2 class="cursor-pointer" onClick={() => r.go(post.url)}>{post.title}</h2>
                       <div v-html={post.excerpt} />
                     </div>
