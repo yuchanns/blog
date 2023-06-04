@@ -1,4 +1,4 @@
-import { defineComponent } from "vue"
+import { defineComponent } from 'vue'
 import { PubDate } from './date.js'
 import { Author } from './author.js'
 import { Content, useData, useRouter } from 'vitepress'
@@ -10,18 +10,24 @@ export const Article = defineComponent({
   setup() {
     const { frontmatter: data } = useData()
     const r = useRouter()
+    // We compare data only within the `posts/*` directory.
+    // However, there could be additional posts elsewhere.
+    // In such cases, `currentIndex` becomes -1,
+    // resulting in an undefined `post`.
     const currentIndex = posts.findIndex((p) => p.url == r.route.path)
 
     const post = posts[currentIndex]
     const nextPost = posts[currentIndex - 1]
     const prevPost = posts[currentIndex + 1]
     const backlinkPosts = posts.filter((p) =>
-      p.backlinks.find(url => url == post.url))
+      p.backlinks.find(url => url == post?.url))
 
     return () =>
       <article class="xl:divide-y xl:divide-gray-200 dark:xl:divide-slate-200/5">
         <header class="pt-6 xl:pb-10 space-y-1 text-center">
-          <PubDate key={post.date.string} date={post.date} />
+          {post &&
+            <PubDate key={post.date.string} date={post.date} />
+          }
           <h1
             class="text-3xl leading-9 font-extrabold text-gray-900 dark:text-white tracking-tight sm:text-4xl sm:leading-10 md:text-5xl md:leading-14">
             {data.value.title}
@@ -30,7 +36,9 @@ export const Article = defineComponent({
 
         <div class="divide-y xl:divide-y-0 divide-gray-200 dark:divide-slate-200/5 xl:grid xl:grid-cols-4 xl:gap-x-10 pb-16 xl:pb-20"
           style="grid-template-rows: auto 1fr">
-          <Author />
+          {data.value.author &&
+            <Author />
+          }
           <div class="divide-y divide-gray-200 dark:divide-slate-200/5 xl:pb-0 xl:col-span-3 xl:row-span-2">
             <Content class="prose dark:prose-invert max-w-none pt-10 pb-8" />
             <div class="prose dark:prose-invert max-w-none pb-10">
