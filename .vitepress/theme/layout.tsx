@@ -4,6 +4,7 @@ import { Home } from './home.js'
 import { Article } from './article.js'
 import { NotFound } from './notfound.js'
 import { data as posts } from './posts.data.js'
+import { title } from "../data.js"
 
 
 export const Layout = defineComponent({
@@ -30,10 +31,9 @@ export const Layout = defineComponent({
                 alt="logo"
                 src="https://avatars.githubusercontent.com/u/25029451"
               />
-              {(!frontmatter.value.index) &&
-                <span
-                  class="hidden md:inline dark:text-white"
-                >Code Alchemy Academy</span>
+              {!frontmatter.value.index &&
+                <span class="hidden md:inline dark:text-white"
+                >{title}</span>
               }
             </a>
             <div class="text-sm text-gray-500 dark:text-white leading-5">
@@ -50,19 +50,16 @@ export const Layout = defineComponent({
                 href="/feed.rss"
               >RSS<span class="hidden sm:inline"> Feed</span></a
               >
-              <span class="mr-2 ml-2">·</span>
-              <a
-                class="hover:text-gray-700 dark:hover:text-gray-200"
-                href="https://yuchanns.xyz"
-                target="_blank"
-                rel="noopener"
-              >yuchanns.xyz →</a
-              >
             </div>
           </nav>
         </div>
         <main class="max-w-3xl mx-auto px-4 sm:px-6 xl:max-w-5xl xl:px-0">
-          {frontmatter.value.index ? <Home /> : (page.value.isNotFound && backlinkPosts.value.length == 0 ? <NotFound /> : <Article key={page.value.title} backlinkPosts={backlinkPosts.value} />)}
+          {frontmatter.value.index ?
+            <Home /> : (
+              page.value.isNotFound && backlinkPosts.value.length == 0 ?
+                <NotFound /> :
+                <Article key={page.value.title} backlinkPosts={backlinkPosts.value} />
+            )}
         </main>
       </div>
   }
