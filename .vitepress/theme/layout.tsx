@@ -1,8 +1,9 @@
-import { defineComponent } from "vue"
-import { useData } from 'vitepress'
+import { computed, defineComponent } from "vue"
+import { useData, useRouter } from 'vitepress'
 import { Home } from './home.js'
 import { Article } from './article.js'
 import { NotFound } from './notfound.js'
+import { data as posts } from './posts.data.js'
 
 
 export const Layout = defineComponent({
@@ -10,6 +11,13 @@ export const Layout = defineComponent({
 
   setup() {
     const { page, frontmatter } = useData()
+    // There are two types of post pages:
+    // 1. Posts with a corresponding markdown file on the disk
+    // 2. Posts without an md file but referenced by other posts
+    // We need to create a dummy page for the second type to list all its backlinks.
+    const r = useRouter()
+    const backlinkPosts = computed(() => posts.filter((p) =>
+      p.backlinks.find(url => url == r.route.path)))
 
     return () =>
       <div class="antialiased dark:bg-slate-900">
@@ -54,7 +62,7 @@ export const Layout = defineComponent({
           </nav>
         </div>
         <main class="max-w-3xl mx-auto px-4 sm:px-6 xl:max-w-5xl xl:px-0">
-          {frontmatter.value.index ? <Home /> : (page.value.isNotFound ? <NotFound /> : <Article key={page.value.title} />)}
+          {frontmatter.value.index ? <Home /> : (page.value.isNotFound && backlinkPosts.value.length == 0 ? <NotFound /> : <Article key={page.value.title} backlinkPosts={backlinkPosts.value} />)}
         </main>
       </div>
   }

@@ -1,14 +1,19 @@
-import { defineComponent } from 'vue'
+import { computed, defineComponent, PropType } from 'vue'
 import { PubDate } from './date.js'
 import { Author } from './author.js'
 import { Content, useData, useRouter } from 'vitepress'
-import { data as posts } from './posts.data.js'
+import { data as posts, Post } from './posts.data.js'
+import { postsPrefix } from '../data.js'
 
 export const Article = defineComponent({
   name: "Author",
 
-  setup() {
-    const { frontmatter: data } = useData()
+  props: {
+    backlinkPosts: { type: Object as PropType<Post[]>, default: [] }
+  },
+
+  setup({ backlinkPosts }) {
+    const { frontmatter: data, page } = useData()
     const r = useRouter()
     // We compare data only within the `posts/*` directory.
     // However, there could be additional posts elsewhere.
@@ -19,8 +24,13 @@ export const Article = defineComponent({
     const post = posts[currentIndex]
     const nextPost = posts[currentIndex - 1]
     const prevPost = posts[currentIndex + 1]
-    const backlinkPosts = posts.filter((p) =>
-      p.backlinks.find(url => url == post?.url))
+
+    const title = computed(() => {
+      const title = page.value.isNotFound ?
+        r.route.path.replace(`/${postsPrefix}/`, '') : data.value.title
+      r.route.data.title = title
+      return title
+    })
 
     return () =>
       <article class="xl:divide-y xl:divide-gray-200 dark:xl:divide-slate-200/5">
@@ -30,7 +40,7 @@ export const Article = defineComponent({
           }
           <h1
             class="text-3xl leading-9 font-extrabold text-gray-900 dark:text-white tracking-tight sm:text-4xl sm:leading-10 md:text-5xl md:leading-14">
-            {data.value.title}
+            {title.value}
           </h1>
         </header>
 
@@ -40,7 +50,9 @@ export const Article = defineComponent({
             <Author />
           }
           <div class="divide-y divide-gray-200 dark:divide-slate-200/5 xl:pb-0 xl:col-span-3 xl:row-span-2">
-            <Content class="prose dark:prose-invert max-w-none pt-10 pb-8" />
+            {!page.value.isNotFound &&
+              <Content class="prose dark:prose-invert max-w-none pt-10 pb-8" />
+            }
             <div class="prose dark:prose-invert max-w-none pb-10">
               <h2 class="text-lg text-gray-500 font-bold pt-10">
                 {backlinkPosts.length} Linked Reference(s)
@@ -58,7 +70,7 @@ export const Article = defineComponent({
           </div>
           <footer
             class="text-sm font-medium leading-5 divide-y divide-gray-200 dark:divide-slate-200/5 xl:col-start-1 xl:row-start-2">
-            {nextPost &&
+            {!page.value.isNotFound && nextPost &&
               <div class="py-8">
                 <h2 class="text-xs tracking-wide uppercase text-gray-500 dark:text-white">
                   Next Article
@@ -68,7 +80,7 @@ export const Article = defineComponent({
                 </div>
               </div>
             }
-            {prevPost &&
+            {!page.value.isNotFound && prevPost &&
               <div class="py-8">
                 <h2 class="text-xs tracking-wide uppercase text-gray-500 dark:text-white">
                   Previous Article
