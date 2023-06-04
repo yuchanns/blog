@@ -1,7 +1,7 @@
 import { defineComponent } from "vue"
 import { PubDate } from './date.js'
 import { Author } from './author.js'
-import { Content, useData, useRoute, useRouter } from 'vitepress'
+import { Content, useData, useRouter } from 'vitepress'
 import { data as posts } from './posts.data.js'
 
 export const Article = defineComponent({
@@ -9,9 +9,8 @@ export const Article = defineComponent({
 
   setup() {
     const { frontmatter: data } = useData()
-    const route = useRoute()
     const r = useRouter()
-    const currentIndex = posts.findIndex((p) => p.url == route.path)
+    const currentIndex = posts.findIndex((p) => p.url == r.route.path)
 
     const post = posts[currentIndex]
     const nextPost = posts[currentIndex - 1]
