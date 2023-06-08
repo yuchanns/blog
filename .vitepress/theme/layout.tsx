@@ -31,9 +31,9 @@ export const Layout = defineComponent({
                 alt="logo"
                 src="https://avatars.githubusercontent.com/u/25029451"
               />
-              {!frontmatter.value.index &&
+              {!frontmatter.value.index ?
                 <span class="hidden md:inline dark:text-white"
-                >{title}</span>
+                >{title}</span> : null
               }
             </a>
             <div class="text-sm text-gray-500 dark:text-white leading-5">
