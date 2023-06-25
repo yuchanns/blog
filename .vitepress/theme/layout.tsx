@@ -29,7 +29,7 @@ export const Layout = defineComponent({
                 class="inline-block mr-2"
                 style="width: 36px; height: 36px"
                 alt="logo"
-                src="https://avatars.githubusercontent.com/u/25029451"
+                src="https://user-images.githubusercontent.com/25029451/248530466-f035ce79-04f4-4c1c-92fc-2ccb792b79e6.png"
               />
               {!frontmatter.value.index ?
                 <span class="hidden md:inline dark:text-white"
