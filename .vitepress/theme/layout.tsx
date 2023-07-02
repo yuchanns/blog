@@ -46,6 +46,13 @@ export const Layout = defineComponent({
               >
               <span class="mr-2 ml-2">·</span>
               <a
+                rel="me"
+                class="hover:text-gray-700 dark:hover:text-gray-200"
+                href="https://ani.work/@yuchanns"
+                target="_blank"
+              >Mastodon</a>
+              <span class="mr-2 ml-2">·</span>
+              <a
                 class="hover:text-gray-700 dark:hover:text-gray-200"
                 href="/feed.rss"
               >RSS<span class="hidden sm:inline"> Feed</span></a
