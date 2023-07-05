@@ -48,9 +48,9 @@ export const Layout = defineComponent({
               <a
                 rel="me"
                 class="hover:text-gray-700 dark:hover:text-gray-200"
-                href="https://ani.work/@yuchanns"
+                href="https://dvd.chat/@yuchanns"
                 target="_blank"
-              >Mastodon</a>
+              >DVD<span class="hidden sm:inline"> Chat</span></a>
               <span class="mr-2 ml-2">·</span>
               <a
                 class="hover:text-gray-700 dark:hover:text-gray-200"
