@@ -1,6 +1,6 @@
 ---
 title: 简单易懂的 Caddy 用法
-date: 2023-12-39
+date: 2023-12-07
 author: Hanchin Hsieh
 avatar: https://avatars.githubusercontent.com/u/25029451
 twitter: '@_yuchanns_'
