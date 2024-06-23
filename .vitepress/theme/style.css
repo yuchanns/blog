@@ -12,6 +12,11 @@
   --c-text-light-1: rgba(60, 60, 67, .92);
 }
 
+body {
+  font-family: Cantarell,sans-serif;
+  font-size: 120%;
+}
+
 nav img {
   vertical-align: middle;
 }
@@ -164,7 +169,5 @@ span.lang {
   right: 0.5em;
   font-size: 0.75em;
   color: #999;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    'Liberation Mono', 'Courier New', monospace;
 }
 
